@@ -57,10 +57,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - UMASK={{ .U.umask }}
+      - "UMASK={{ .U.umask }}"
       - PORT=8688
-      - TZ={{ .U.timezone }}
-      - SLSKD_DOWNLOADS_PATH={{ .U.slskd_downloads_path }}
+      - "TZ={{ .U.timezone }}"
+      - SLSKD_DOWNLOADS_PATH=/data/slskd/complete
     binds:
       - /lzcapp/var/droppedneedle/config:/app/config
       - /lzcapp/var/droppedneedle/cache:/app/cache
