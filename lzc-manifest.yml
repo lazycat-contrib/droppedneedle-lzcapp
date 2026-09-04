@@ -1,0 +1,80 @@
+application:
+  subdomain: droppedneedle
+  multi_instance: true
+  upstreams:
+    - location: /
+      backend: http://droppedneedle:8688/
+  injects:
+    - id: capture-droppedneedle-credentials
+      on: request
+      auth_required: false
+      when:
+        - /api/v1/auth/setup
+        - /api/v1/auth/login
+      do: |
+        const payload = ctx.body.getJSON();
+        if (payload && payload.username && payload.password) {
+          ctx.flow.set("droppedneedle_pending_username", payload.username);
+          ctx.flow.set("droppedneedle_pending_password", payload.password);
+        }
+    - id: persist-droppedneedle-credentials
+      on: response
+      auth_required: false
+      when:
+        - /api/v1/auth/setup
+        - /api/v1/auth/login
+      do: |
+        if (ctx.status >= 200 && ctx.status < 300) {
+          const username = ctx.flow.get("droppedneedle_pending_username");
+          const password = ctx.flow.get("droppedneedle_pending_password");
+          if (username && password) {
+            ctx.persist.set("droppedneedle_username", username);
+            ctx.persist.set("droppedneedle_password", password);
+          }
+        }
+    - id: autofill-droppedneedle-login
+      on: browser
+      when:
+        - /login
+      do:
+        - src: builtin://simple-inject-password
+          params:
+            user:
+              $persist: droppedneedle_username
+            password:
+              $persist: droppedneedle_password
+    - id: open-save-chooser
+      on: browser
+      when:
+        - /*
+      do:
+        - src: file:///lzcapp/pkg/content/lazycat-injects/lzc-file-chooser-inject.js
+
+services:
+  droppedneedle:
+    # upstream: docker.io/droppedneedle/droppedneedle:v2.10.2
+    image: docker.1ms.run/droppedneedle/droppedneedle@sha256:e41f714b0bdf82f20ad6cb0e7e6f8a8231cc7b6502aefdb90005989b12b1d6d7
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK={{ .U.umask }}
+      - PORT=8688
+      - TZ={{ .U.timezone }}
+      - SLSKD_DOWNLOADS_PATH={{ .U.slskd_downloads_path }}
+    binds:
+      - /lzcapp/var/droppedneedle/config:/app/config
+      - /lzcapp/var/droppedneedle/cache:/app/cache
+      - /lzcapp/var/droppedneedle/plugins:/app/plugins
+      - /lzcapp/documents/{{ .S.DeployUID }}/DroppedNeedle:/data
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://localhost:8688/health
+      interval: 30s
+      timeout: 10s
+      start_period: 10m
+
+usage: |
+  Each LazyCat user gets an independent DroppedNeedle instance. On first launch, create the administrator account on the native setup screen; successful setup and login credentials are remembered for later autofill. Configure the music library as /data/music and connect your own slskd or SABnzbd under Settings. The selected private-document folder is mounted at /data.

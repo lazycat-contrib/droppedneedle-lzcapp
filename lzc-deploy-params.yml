@@ -1,0 +1,43 @@
+params:
+  - id: timezone
+    type: string
+    name: Time Zone
+    description: IANA time zone such as Etc/UTC, Asia/Shanghai, Europe/London, or America/New_York
+    default_value: Etc/UTC
+    optional: false
+
+  - id: umask
+    type: string
+    name: File UMASK
+    description: File creation mask; 027 is secure, while 002 permits trusted group writes
+    default_value: "027"
+    optional: false
+
+  - id: slskd_downloads_path
+    type: string
+    name: slskd Downloads Path
+    description: Path inside the shared /data mount where slskd completed downloads are visible to DroppedNeedle
+    default_value: /data/slskd/complete
+    optional: false
+
+locales:
+  zh:
+    timezone:
+      name: 时区
+      description: IANA 时区，例如 Etc/UTC、Asia/Shanghai、Europe/London 或 America/New_York
+    umask:
+      name: 文件 UMASK
+      description: 文件创建掩码；027 更安全，002 允许可信用户组写入
+    slskd_downloads_path:
+      name: slskd 下载目录
+      description: slskd 完成下载在共享 /data 挂载内对应的容器路径
+  en:
+    timezone:
+      name: Time Zone
+      description: IANA time zone such as Etc/UTC, Asia/Shanghai, Europe/London, or America/New_York
+    umask:
+      name: File UMASK
+      description: File creation mask; 027 is secure, while 002 permits trusted group writes
+    slskd_downloads_path:
+      name: slskd Downloads Path
+      description: Container path under /data where completed slskd downloads are visible

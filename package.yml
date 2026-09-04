@@ -1,0 +1,19 @@
+package: community.lazycat.app.droppedneedle
+version: 2.10.2
+name: DroppedNeedle
+description: "Search MusicBrainz, request an album or a single track, and a native engine drives your own slskd or Usenet: it scans, fingerprints, tags and files every result. No Lidarr, one container."
+min_os_version: 1.5.0
+homepage: https://github.com/DroppedNeedle/DroppedNeedle
+author: DroppedNeedle
+license: AGPL-3.0-only
+permissions:
+  required:
+    - net.internet
+    - document.private
+locales:
+  zh:
+    name: DroppedNeedle
+    description: 搜索 MusicBrainz 并请求专辑或单曲，通过自有 slskd 或 Usenet 完成扫描、指纹识别、标签整理和归档
+  en:
+    name: DroppedNeedle
+    description: Search MusicBrainz and request albums or tracks through your own slskd or Usenet download client
