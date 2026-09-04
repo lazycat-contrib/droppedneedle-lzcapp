@@ -49,11 +49,10 @@ application:
         - /*
       do:
         - src: file:///lzcapp/pkg/content/lazycat-injects/lzc-file-chooser-inject.js
-
 services:
   droppedneedle:
     # upstream: docker.io/droppedneedle/droppedneedle:v2.10.2
-    image: docker.1ms.run/droppedneedle/droppedneedle@sha256:e41f714b0bdf82f20ad6cb0e7e6f8a8231cc7b6502aefdb90005989b12b1d6d7
+    image: docker.1ms.run/droppedneedle/droppedneedle:v2.10.2
     environment:
       - PUID=1000
       - PGID=1000
@@ -75,6 +74,5 @@ services:
       interval: 30s
       timeout: 10s
       start_period: 10m
-
 usage: |
   Each LazyCat user gets an independent DroppedNeedle instance. On first launch, create the administrator account on the native setup screen; successful setup and login credentials are remembered for later autofill. Configure the music library as /data/music and connect your own slskd or SABnzbd under Settings. The selected private-document folder is mounted at /data.
