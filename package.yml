@@ -5,7 +5,7 @@ description: "Search MusicBrainz, request an album or a single track, and a nati
 min_os_version: 1.5.0
 homepage: https://github.com/DroppedNeedle/DroppedNeedle
 author: DroppedNeedle
-license: AGPL-3.0-only
+license: AGPL-3.0
 permissions:
   required:
     - net.internet
