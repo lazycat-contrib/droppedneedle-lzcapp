@@ -51,8 +51,8 @@ application:
         - src: file:///lzcapp/pkg/content/lazycat-injects/lzc-file-chooser-inject.js
 services:
   droppedneedle:
-    # upstream: docker.io/droppedneedle/droppedneedle:v2.15.0
-    image: docker.1ms.run/droppedneedle/droppedneedle:v2.15.0
+    # upstream: docker.io/droppedneedle/droppedneedle:v3.0.0
+    image: docker.1ms.run/droppedneedle/droppedneedle:v3.0.0
     environment:
       - PUID=1000
       - PGID=1000
